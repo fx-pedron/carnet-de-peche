@@ -1,0 +1,85 @@
+/**
+ * Génère le fichier de marées publié sur GitHub Pages.
+ *
+ * Ce script tourne dans GitHub Actions, jamais dans l'app : la clé API vient d'un secret du
+ * dépôt et n'est donc embarquée nulle part côté client. L'app se contente de télécharger le
+ * JSON produit, puis de le garder en cache pour fonctionner hors-ligne.
+ *
+ * L'API n'accepte que la fenêtre J-30 à J+30, d'où le rafraîchissement quotidien.
+ */
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
+
+const BASE = 'https://api-maree.fr'
+const CLE = process.env.API_MAREE_KEY
+const SORTIE = 'site'
+const JOURS_AVANT = 2
+const JOURS_APRES = 29
+
+if (!CLE) {
+  console.error('API_MAREE_KEY manquante — la renseigner dans les secrets du dépôt.')
+  process.exit(1)
+}
+
+const jour = (decalage) => {
+  const d = new Date()
+  d.setUTCDate(d.getUTCDate() + decalage)
+  return d.toISOString().slice(0, 10)
+}
+
+async function json(url) {
+  const rep = await fetch(url)
+  if (!rep.ok) throw new Error(`${rep.status} sur ${url.replace(CLE, '***')} — ${await rep.text()}`)
+  return rep.json()
+}
+
+const ports = JSON.parse(await readFile(new URL('./ports.json', import.meta.url), 'utf8'))
+const from = jour(-JOURS_AVANT)
+const to = jour(JOURS_APRES)
+
+// La liste des sites ne demande pas de clé : elle sert à situer le port le plus proche.
+const { sites } = await json(`${BASE}/sites`)
+const connus = new Map(sites.map((s) => [s.site_id, s]))
+
+const marees = {}
+for (const id of ports) {
+  if (!connus.has(id)) {
+    console.error(`Port inconnu, ignoré : ${id}`)
+    continue
+  }
+  const url = `${BASE}/tide-extrema?site=${id}&from=${from}&to=${to}&tz=Europe/Paris&key=${CLE}`
+  const rep = await json(url)
+
+  // Format compact : [heure, hauteur en cm, "PM"|"BM", coefficient]
+  marees[id] = Object.fromEntries(
+    rep.data.map((j) => [
+      j.date,
+      j.extrema.map((e) => [e.time, Math.round(e.height * 100), e.type, e.coef ?? null]),
+    ]),
+  )
+  const jours = Object.keys(marees[id]).length
+  console.log(`${connus.get(id).site_name.padEnd(22)} ${jours} jours`)
+}
+
+const fichier = {
+  genere: new Date().toISOString(),
+  du: from,
+  au: to,
+  attribution:
+    'Données de marée fournies par api-maree.fr sous licence CC BY, calculées à partir de composantes harmoniques Ifremer / PREVIMER',
+  format: ['heure', 'hauteur_cm', 'type', 'coefficient'],
+  ports: ports
+    .filter((id) => connus.has(id))
+    .map((id) => ({
+      id,
+      nom: connus.get(id).site_name,
+      lat: connus.get(id).latitude,
+      lng: connus.get(id).longitude,
+    })),
+  marees,
+}
+
+await mkdir(SORTIE, { recursive: true })
+await writeFile(`${SORTIE}/marees.json`, JSON.stringify(fichier))
+
+const taille = (JSON.stringify(fichier).length / 1024).toFixed(1)
+console.log(`\n${SORTIE}/marees.json — ${taille} Ko, du ${from} au ${to}`)
