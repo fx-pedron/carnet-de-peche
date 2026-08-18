@@ -16,9 +16,14 @@ const JOURS_AVANT = 2
 const JOURS_APRES = 29
 
 if (!CLE) {
-  console.error('API_MAREE_KEY manquante — la renseigner dans les secrets du dépôt.')
+  console.error('❌ API_MAREE_KEY absente ou vide.')
+  console.error('   Settings → Secrets and variables → Actions → New repository secret')
+  console.error('   Nom attendu, exactement : API_MAREE_KEY')
   process.exit(1)
 }
+
+// Longueur seulement : les logs Actions d'un dépôt public sont lisibles par tous.
+console.log(`Clé détectée : ${CLE.length} caractères.`)
 
 const jour = (decalage) => {
   const d = new Date()
@@ -28,8 +33,18 @@ const jour = (decalage) => {
 
 async function json(url) {
   const rep = await fetch(url)
-  if (!rep.ok) throw new Error(`${rep.status} sur ${url.replace(CLE, '***')} — ${await rep.text()}`)
-  return rep.json()
+  if (rep.ok) return rep.json()
+
+  // La clé est masquée dans les traces : les logs Actions d'un dépôt public sont visibles.
+  const anonyme = url.replace(CLE, '***')
+  const corps = (await rep.text()).slice(0, 300)
+  if (rep.status === 401 || rep.status === 403) {
+    console.error(`❌ Clé refusée par l'API (HTTP ${rep.status}).`)
+    console.error("   Vérifie la valeur du secret API_MAREE_KEY, et que le compte api-maree.fr est actif.")
+  } else if (rep.status === 422) {
+    console.error(`❌ Requête invalide (HTTP 422) — paramètre manquant ou hors fenêtre J-30/J+30.`)
+  }
+  throw new Error(`HTTP ${rep.status} sur ${anonyme}\n${corps}`)
 }
 
 const ports = JSON.parse(await readFile(new URL('./ports.json', import.meta.url), 'utf8'))
