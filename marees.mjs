@@ -47,15 +47,29 @@ async function json(url) {
   throw new Error(`HTTP ${rep.status} sur ${anonyme}\n${corps}`)
 }
 
-const ports = JSON.parse(await readFile(new URL('./ports.json', import.meta.url), 'utf8'))
 const from = jour(-JOURS_AVANT)
 const to = jour(JOURS_APRES)
 
-// La liste des sites ne demande pas de clé : elle sert à situer le port le plus proche.
+// La liste des sites ne demande pas de clé.
 const { sites } = await json(`${BASE}/sites`)
 const connus = new Map(sites.map((s) => [s.site_id, s]))
 
+/**
+ * `ports.json` restreint la sélection si besoin ; vide ou absent, on publie tous les ports
+ * disponibles, pour que l'app propose la France entière dans son menu déroulant.
+ */
+let ports
+try {
+  const choisis = JSON.parse(await readFile(new URL('./ports.json', import.meta.url), 'utf8'))
+  ports = Array.isArray(choisis) && choisis.length ? choisis : [...connus.keys()]
+} catch {
+  ports = [...connus.keys()]
+}
+
+console.log(`${ports.length} port(s) à récupérer, du ${from} au ${to}.`)
+
 const marees = {}
+let ok = 0
 for (const id of ports) {
   if (!connus.has(id)) {
     console.error(`Port inconnu, ignoré : ${id}`)
@@ -71,9 +85,10 @@ for (const id of ports) {
       j.extrema.map((e) => [e.time, Math.round(e.height * 100), e.type, e.coef ?? null]),
     ]),
   )
-  const jours = Object.keys(marees[id]).length
-  console.log(`${connus.get(id).site_name.padEnd(22)} ${jours} jours`)
+  ok++
+  if (ok % 25 === 0) console.log(`  ${ok}/${ports.length}…`)
 }
+console.log(`${ok} ports récupérés.`)
 
 const fichier = {
   genere: new Date().toISOString(),
