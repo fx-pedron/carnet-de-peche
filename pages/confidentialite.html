@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Politique de confidentialité — Kerpesk</title>
+    <meta
+      name="description"
+      content="Politique de confidentialité de l'application Kerpesk, carnet de pêche en mer."
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #07141f;
+        --surface: #0e2233;
+        --line: #1e4360;
+        --text: #eaf4fb;
+        --muted: #8fb0c6;
+        --accent: #5fefd7;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 32px 20px 64px;
+        background: var(--bg);
+        color: var(--text);
+        font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      main { max-width: 720px; margin: 0 auto; }
+      h1 { font-size: 26px; margin: 0 0 4px; }
+      h2 {
+        margin: 36px 0 10px;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .maj { color: var(--muted); font-size: 14px; margin: 0 0 8px; }
+      section {
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--surface);
+      }
+      p { margin: 0 0 12px; }
+      p:last-child, ul:last-child { margin-bottom: 0; }
+      ul { margin: 0 0 12px; padding-left: 20px; }
+      li { margin-bottom: 8px; }
+      strong { color: var(--text); }
+      a { color: var(--accent); }
+      footer { margin-top: 40px; color: var(--muted); font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Politique de confidentialité</h1>
+      <p class="maj">Application Kerpesk — carnet de pêche en mer. Mise à jour le 19 août 2026.</p>
+
+      <h2>En résumé</h2>
+      <section>
+        <p>
+          Kerpesk fonctionne <strong>sans compte et sans serveur</strong>. Votre carnet reste sur
+          votre téléphone. Aucune donnée personnelle n'est collectée, transmise, vendue ni
+          partagée, et l'application ne contient ni publicité, ni traqueur, ni mesure d'audience.
+        </p>
+      </section>
+
+      <h2>Données enregistrées sur l'appareil</h2>
+      <section>
+        <p>
+          L'application enregistre uniquement ce que vous y saisissez : profil, boîte à leurres,
+          prises, sessions de pêche, conditions météo et de marée, photos de vos prises, et les
+          coordonnées GPS des lieux où vous pêchez.
+        </p>
+        <p>
+          Ces informations sont stockées <strong>localement</strong>, dans l'espace privé de
+          l'application (stockage local du navigateur intégré et base IndexedDB pour les photos).
+          Elles ne sont envoyées vers aucun serveur et ne sont accessibles à personne d'autre que
+          vous.
+        </p>
+      </section>
+
+      <h2>Localisation</h2>
+      <section>
+        <p>
+          L'application demande l'accès à votre position (permissions Android
+          <em>ACCESS_FINE_LOCATION</em> et <em>ACCESS_COARSE_LOCATION</em>) pour quatre usages :
+        </p>
+        <ul>
+          <li>situer une prise et l'afficher sur la carte de la session ;</li>
+          <li>proposer le port de référence le plus proche pour le calcul des marées ;</li>
+          <li>déterminer la façade maritime, dont dépend la taille légale de capture ;</li>
+          <li>récupérer les prévisions de ciel et de vent.</li>
+        </ul>
+        <p>
+          Le refus de cette permission n'empêche pas d'utiliser l'application : les positions
+          restent alors vides et les conditions se saisissent à la main.
+        </p>
+      </section>
+
+      <h2>Photos</h2>
+      <section>
+        <p>
+          L'ajout d'une photo passe par le sélecteur du système, qui vous laisse choisir entre
+          l'appareil photo et la galerie. L'application ne demande pas de permission d'accès à
+          l'appareil photo ni à votre bibliothèque : elle ne reçoit que le cliché que vous avez
+          désigné. Il est redimensionné puis conservé sur l'appareil, avec le reste du carnet.
+        </p>
+      </section>
+
+      <h2>Connexions à des services extérieurs</h2>
+      <section>
+        <p>Trois services sont contactés, aucun ne reçoit d'identifiant ni de donnée de compte.</p>
+        <ul>
+          <li>
+            <strong>Marées</strong> — téléchargement d'un fichier public de prévisions, hébergé
+            sur ce même domaine. Aucune information ne part de votre appareil.
+          </li>
+          <li>
+            <strong>Météo</strong> — <a href="https://open-meteo.com">Open-Meteo</a> reçoit une
+            position <strong>arrondie au centième de degré</strong>, soit environ un kilomètre,
+            afin de renvoyer les prévisions du secteur. Vos coordonnées exactes ne sont pas
+            transmises.
+          </li>
+          <li>
+            <strong>Fonds de carte</strong> — l'affichage de la carte d'une session télécharge des
+            tuiles depuis <a href="https://www.openstreetmap.org">OpenStreetMap</a>. Le serveur
+            apprend alors quelle zone est consultée, sans savoir qui la consulte. Aucune requête
+            n'est émise tant que vous n'ouvrez pas de carte.
+          </li>
+        </ul>
+      </section>
+
+      <h2>Conservation et suppression</h2>
+      <section>
+        <p>
+          Vos données sont conservées tant que l'application est installée. Elles disparaissent
+          entièrement si vous la désinstallez, ou si vous utilisez
+          <em>Paramètres › Supprimer les données</em>, qui efface le carnet et les photos sans
+          possibilité de retour.
+        </p>
+        <p>
+          Comme rien n'est sauvegardé à distance, la fonction <em>Exporter les données</em> vous
+          permet d'emporter un fichier contenant l'intégralité de votre carnet.
+        </p>
+      </section>
+
+      <h2>Enfants</h2>
+      <section>
+        <p>
+          L'application ne s'adresse pas particulièrement aux enfants et ne collecte aucune donnée,
+          quel que soit l'âge de l'utilisateur.
+        </p>
+      </section>
+
+      <h2>Contact</h2>
+      <section>
+        <p>
+          Éditeur : François-Xavier Pedron. Pour toute question relative à cette politique :
+          <a href="mailto:contact@kerpesk.fr">contact@kerpesk.fr</a>.
+        </p>
+        <p>
+          Cette politique pourra évoluer avec l'application ; la date de mise à jour figure en
+          haut de page.
+        </p>
+      </section>
+
+      <footer>Kerpesk — du breton <em>kêr</em>, le village, et <em>pesk</em>, le poisson.</footer>
+    </main>
+  </body>
+</html>

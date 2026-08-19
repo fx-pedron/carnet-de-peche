@@ -35,6 +35,12 @@ jobs:
           API_MAREE_KEY: ${{ secrets.API_MAREE_KEY }}
         run: node marees.mjs
 
+      # Le site et les marées partagent une publication unique : les pages statiques doivent
+      # donc rejoindre l'artefact à chaque exécution, sans quoi la mise à jour quotidienne des
+      # marées les ferait disparaître.
+      - name: Ajouter les pages du site
+        run: cp -R pages/. site/
+
       - uses: actions/configure-pages@v6
 
       - uses: actions/upload-pages-artifact@v5

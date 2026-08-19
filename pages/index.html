@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kerpesk — carnet de pêche en mer</title>
+    <meta
+      name="description"
+      content="Kerpesk, carnet de pêche en mer : prises, leurres, marées et conditions, sans compte et sans serveur."
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #07141f;
+        --surface: #0e2233;
+        --line: #1e4360;
+        --text: #eaf4fb;
+        --muted: #8fb0c6;
+        --accent: #5fefd7;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 48px 20px 64px;
+        background: var(--bg);
+        color: var(--text);
+        font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      main { max-width: 640px; margin: 0 auto; }
+      h1 { font-size: 34px; margin: 0 0 6px; letter-spacing: -0.01em; }
+      .sous { color: var(--muted); margin: 0 0 32px; }
+      section {
+        padding: 18px 20px;
+        margin-bottom: 14px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--surface);
+      }
+      h2 { margin: 0 0 8px; font-size: 15px; }
+      p { margin: 0 0 10px; }
+      p:last-child { margin-bottom: 0; }
+      ul { margin: 0; padding-left: 20px; color: var(--muted); }
+      li { margin-bottom: 6px; }
+      a { color: var(--accent); }
+      footer { margin-top: 32px; color: var(--muted); font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Kerpesk</h1>
+      <p class="sous">
+        Carnet de pêche en mer. Du breton <em>kêr</em>, le village — celui où l'on rentre, plus que
+        la maison — et <em>pesk</em>, le poisson.
+      </p>
+
+      <section>
+        <h2>Ce que fait l'application</h2>
+        <ul>
+          <li>Enregistrer ses prises : espèce, taille, leurre, heure, position, photo.</li>
+          <li>Suivre une session et le temps de pêche réel passé avec chaque leurre.</li>
+          <li>Calculer la marée à l'instant de la prise, à partir des étales du jour.</li>
+          <li>Vérifier la taille légale de capture, selon l'espèce et la façade maritime.</li>
+          <li>Dégager les conditions où ça mord, une fois le carnet assez fourni.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Sans compte, sans serveur</h2>
+        <p>
+          Le carnet reste sur le téléphone. Aucune inscription, aucune donnée envoyée, aucune
+          publicité ni mesure d'audience. Les spots de pêche n'en sortent pas.
+        </p>
+        <p><a href="/confidentialite.html">Politique de confidentialité</a></p>
+      </section>
+
+      <footer>
+        Données de marée fournies par api-maree.fr sous licence CC BY, calculées à partir des
+        composantes harmoniques Ifremer&nbsp;/&nbsp;PREVIMER.
+      </footer>
+    </main>
+  </body>
+</html>
