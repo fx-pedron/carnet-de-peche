@@ -70,7 +70,25 @@
       ol { margin: 0 0 12px; padding-left: 22px; color: var(--muted); }
       ol li { margin-bottom: 6px; }
       .note { color: var(--muted); font-size: 14px; }
-      .lancer { text-align: center; }
+      /* Capture à droite sur écran large, sous le texte sur mobile — voir la requête plus bas. */
+      .lancer {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+      }
+      .argument { flex: 1; min-width: 0; }
+      .argument p { margin: 0 0 14px; }
+      /* Le cadre du téléphone est déjà dans l'image : pas de bordure ni de fond à ajouter. */
+      .mockup {
+        width: 210px;
+        height: auto;
+        flex-shrink: 0;
+      }
+      @media (max-width: 560px) {
+        .lancer { flex-direction: column; gap: 20px; }
+        .mockup { width: 232px; order: 1; }
+        .argument { order: 0; }
+      }
       .bouton {
         display: block;
         padding: 15px 20px;
@@ -99,11 +117,35 @@
       </header>
 
       <section class="lancer">
-        <a class="bouton" href="/app/">Ouvrir Kerpesk</a>
-        <p class="note">
-          L'app s'ouvre directement dans le navigateur, sans installation ni compte. Ajoute-la à
-          ton écran d'accueil pour t'en servir comme d'une application, y compris sans réseau.
-        </p>
+        <div class="argument">
+          <p>
+            Tu rentres de session, tu notes. Kerpesk fait le reste : il calcule la marée à
+            l'heure exacte de ta prise, retient le leurre qui était au bout de la ligne, et
+            compte le temps que tu as vraiment passé avec.
+          </p>
+          <p>
+            Au fil des sorties, ton carnet cesse d'être une archive. Il te dit à quelle marée ça
+            mord, quel créneau paie, et quel leurre mérite sa place dans la boîte — mesuré au
+            temps de pêche, pas au nombre de prises.
+          </p>
+          <p>
+            <strong>Tout reste sur ton téléphone.</strong> Pas de compte, pas de serveur, pas de
+            publicité. Tes spots ne sortent pas de ta poche.
+          </p>
+          <a class="bouton" href="/app/">Ouvrir Kerpesk</a>
+          <p class="note">
+            L'app s'ouvre directement dans le navigateur, sans installation. Ajoute-la à ton
+            écran d'accueil pour t'en servir comme d'une application, y compris sans réseau.
+          </p>
+        </div>
+        <img
+          class="mockup"
+          src="/mockup.png"
+          alt="Le tableau de bord de Kerpesk sur un iPhone : nombre de prises, taille moyenne, plus gros poisson, zone préférée et badges."
+          width="592"
+          height="1200"
+          loading="lazy"
+        />
       </section>
 
       <section>
