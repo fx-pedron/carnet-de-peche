@@ -411,97 +411,90 @@ body::after {
 }
 
 /*
- * Les gerbes se comportent comme le poisson : elles montent hors de l'eau puis y retombent, au
- * lieu de s'evanouir en plein air. C'est la surface, posee devant le decor, qui les avale.
+ * L'ecume suit une arche qui nait la ou le poisson perce la surface. Un segment court la parcourt
+ * d'un pied a l'autre — c'est le decoupage en pelure d'oignon du dessin d'origine.
  *
- * Quatre jets, deux par flanc : le principal et celui qui part plus loin et plus haut. Chacun
- * porte son ecart et son apex, et part avec un leger retard sur le precedent — jaillis ensemble,
- * ils n'auraient forme qu'un seul bloc.
+ * Deux arches par gerbe, du meme point de depart mais de portees inegales, deployees de part et
+ * d'autre du passage. Les deux pieds touchant la ligne d'eau, le trait sort de l'onde et y
+ * replonge sans qu'aucun fondu ne soit ecrit.
  */
 .saut .gerbe {
   position: absolute;
-  bottom: 52px;
+  /* Juste sous la crete : le trait nait dans l'eau, pas posé dessus. */
+  bottom: 72px;
   width: 0;
   height: 0;
 }
 
-.saut .jet {
-  position: absolute;
-  bottom: 0;
-  display: block;
-  width: 26px;
-  margin-left: -13px;
-  opacity: 0;
+/*
+ * La parabole perce la surface a 20 px du depart et a 20 px de l'arrivee, pas a ses extremites :
+ * celles-ci sont sous l'eau. Mesure sur la course reelle, le poisson y passe a 325 ms puis a
+ * 1580 ms — `offset-distance` avance en longueur de courbe, pas selon le parametre de la courbe,
+ * si bien que ces instants ne se deduisent pas du trace.
+ */
+.saut .gerbe-depart {
+  left: 20px;
 }
 
-/*
- * La parabole se joue a deux etages : l'ecart horizontal file a vitesse constante sur le bloc,
- * la hauteur freine puis reaccelere sur le dessin qu'il porte. Une seule animation melant les
- * deux ne donnait qu'une pointe — la courbe naissait de l'assouplissement, pas de la trajectoire.
- */
-.saut .jet svg {
+.saut .gerbe-retour {
+  left: 160px;
+}
+
+.saut .arche {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+}
+
+.saut .arche svg {
   display: block;
   width: 100%;
   height: auto;
 }
 
-/* Sous `joue`, comme le poisson : hors de la, l'animation partirait au chargement et resterait
-   echouee sur sa derniere image. */
-.saut.joue .jet {
-  animation: jet-ecart 1s linear var(--retard) forwards;
+/*
+ * Meme echelle pour les deux, celle du dessin, qui trace l'ecume plus finement que le poisson :
+ * huit unites de trait contre douze. A l'ecran, 2,1 px contre 3,2 px.
+ */
+.saut .arche-large {
+  width: 56px;
 }
 
-.saut.joue .jet svg {
-  animation: jet-hauteur 1s var(--retard) forwards;
+/* Renvoyee de l'autre cote du passage, d'ou le retournement autour de son pied. */
+.saut .arche-courte {
+  width: 45px;
+  transform: scaleX(-1);
+  transform-origin: 0 100%;
 }
 
-.saut .jet-g {
-  --ecart: -22px;
-  --apex: -56px;
-  --retard: 0s;
+/*
+ * `pathLength` ramene chaque arche a cent unites, quelle que soit sa longueur reelle : le segment
+ * et sa course s'ecrivent alors dans la meme mesure pour l'une comme pour l'autre.
+ */
+.saut .arche path {
+  stroke-dasharray: 18 999;
+  stroke-dashoffset: 18;
 }
 
-.saut .jet-d {
-  --ecart: 22px;
-  --apex: -56px;
-  --retard: 0.05s;
+.saut.joue .arche path {
+  animation: tracer 0.85s ease-out var(--retard) forwards;
 }
 
-.saut .jet-g-loin {
-  --ecart: -40px;
-  --apex: -70px;
-  --retard: 0.08s;
+.saut .gerbe-depart .arche-large {
+  --retard: 0.32s;
 }
 
-.saut .jet-d-loin {
-  --ecart: 40px;
-  --apex: -70px;
-  --retard: 0.13s;
+.saut .gerbe-depart .arche-courte {
+  --retard: 0.38s;
 }
 
-.saut .gerbe-depart {
-  left: 0;
+.saut .gerbe-retour .arche-large {
+  --retard: 1.58s;
 }
 
-.saut .gerbe-retour {
-  left: 180px;
-}
-
-/* La gerbe de retour est calee sur l'entree dans l'eau, a 1,9 s. */
-.saut .gerbe-retour .jet-g {
-  --retard: 1.9s;
-}
-
-.saut .gerbe-retour .jet-d {
-  --retard: 1.95s;
-}
-
-.saut .gerbe-retour .jet-g-loin {
-  --retard: 1.98s;
-}
-
-.saut .gerbe-retour .jet-d-loin {
-  --retard: 2.03s;
+.saut .gerbe-retour .arche-courte {
+  --retard: 1.64s;
 }
 
 @keyframes saut {
@@ -526,41 +519,13 @@ body::after {
 
 
 
-/*
- * L'ecart horizontal : vitesse constante, comme un projectile que rien ne freine lateralement.
- * L'opacite voyage ici pour rester solidaire du meme retard.
- */
-@keyframes jet-ecart {
-  0% {
-    opacity: 0;
-    transform: translateX(0);
-  }
-  12% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(var(--ecart));
-  }
-}
 
 /*
- * La hauteur : montee freinee jusqu'a l'apex a mi-course, chute acceleree ensuite. Ce sont ces
- * deux assouplissements opposes, sur une horizontale reguliere, qui dessinent la parabole.
- *
- * Depart et arrivee sous la crete, a 22 px : plus haut, le jet se montrerait avant de jaillir et
- * resterait visible apres etre retombe.
+ * Le segment entre par un pied de l'arche et ressort par l'autre : hors de ces bornes il est
+ * repousse au-dela du trace, donc invisible, sans avoir a jouer sur l'opacite.
  */
-@keyframes jet-hauteur {
-  0% {
-    transform: translateY(22px) scale(0.5);
-    animation-timing-function: cubic-bezier(0.15, 0.6, 0.4, 1);
-  }
-  50% {
-    transform: translateY(var(--apex)) scale(1);
-    animation-timing-function: cubic-bezier(0.6, 0, 0.85, 0.45);
-  }
-  100% {
-    transform: translateY(26px) scale(1);
+@keyframes tracer {
+  to {
+    stroke-dashoffset: -100;
   }
 }
