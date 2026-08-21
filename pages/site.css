@@ -493,10 +493,14 @@ body::after {
 /*
  * `pathLength` ramene chaque arche a cent unites, quelle que soit sa longueur reelle : le segment
  * et sa course s'ecrivent alors dans la meme mesure pour l'une comme pour l'autre.
+ *
+ * Au repos le pointille est repousse entierement avant le trace, a vingt. Cale sur dix-huit il
+ * s'arretait pile sur l'extremite, ou le bout rond dessinait un disque : un point d'ecume restait
+ * pose sur l'eau en permanence.
  */
 .saut .arche path {
   stroke-dasharray: 18 999;
-  stroke-dashoffset: 18;
+  stroke-dashoffset: 20;
 }
 
 /*
@@ -505,7 +509,7 @@ body::after {
  * seul bloc.
  */
 .saut.joue .arche path {
-  animation: tracer 0.85s ease-out calc(var(--passage) + var(--decalage)) forwards;
+  animation: tracer 0.85s ease-in calc(var(--passage) + var(--decalage)) forwards;
 }
 
 .saut .flanc-droite .arche-large {
@@ -548,11 +552,19 @@ body::after {
 
 
 /*
- * Le segment entre par un pied de l'arche et ressort par l'autre : hors de ces bornes il est
- * repousse au-dela du trace, donc invisible, sans avoir a jouer sur l'opacite.
+ * Le segment entre par un pied de l'arche et ressort par l'autre. Il s'y raccourcit au fil de la
+ * course pour n'etre plus qu'un point a l'entree dans l'eau, et file de plus en plus vite.
+ *
+ * L'arrivee depasse le trace de deux unites : arretee sur cent, elle laissait un dernier point
+ * pose sur l'eau, le bout rond dessinant un disque sur l'extremite exacte du chemin.
  */
 @keyframes tracer {
+  from {
+    stroke-dasharray: 18 999;
+    stroke-dashoffset: 20;
+  }
   to {
-    stroke-dashoffset: -100;
+    stroke-dasharray: 1.5 999;
+    stroke-dashoffset: -102;
   }
 }
