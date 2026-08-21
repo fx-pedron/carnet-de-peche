@@ -12,6 +12,9 @@
   /* Hauteur de la barre : sert aussi à réserver la place du contenu sous elle, et à décaler le
      menu déplié. */
   --hauteur-barre: 78px;
+  /* Gouttiere unique : la barre et le contenu s'alignent sur le meme bord a toutes les tailles.
+     Deux valeurs independantes decalaient le logo du bord du contenu sur telephone. */
+  --gouttiere: 20px;
 }
 
 /* --- Socle commun aux pages --- */
@@ -29,7 +32,7 @@
 
 body {
   margin: 0;
-  padding: 28px 20px 64px;
+  padding: 28px var(--gouttiere) 64px;
   background: var(--bg);
   color: var(--text);
   font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -46,6 +49,17 @@ h1 {
   margin: 0 0 6px;
   font-size: 34px;
   letter-spacing: -0.01em;
+}
+
+/*
+ * Au-delà du téléphone, les retraits rejoignent ceux de la barre : sur une tablette en portrait,
+ * la colonne plafonne à 720 px et ne laissait que 22 px de marge, plus serrés que la gouttière
+ * de la barre juste au-dessus.
+ */
+@media (min-width: 561px) {
+  :root {
+    --gouttiere: 32px;
+  }
 }
 
 /* Sur téléphone seulement : à 34 px, un titre long comme celui de la politique de
@@ -127,9 +141,8 @@ footer {
   justify-content: space-between;
   gap: 16px;
   height: var(--hauteur-barre);
-  /* 24 px au-dessus et en dessous du logo, qui est l'élément le plus haut de la barre, et 32 aux
-     bords : à 20, le logo touchait presque le cadre de l'écran. */
-  padding: 0 32px;
+  /* 24 px au-dessus et en dessous du logo, qui est l'élément le plus haut de la barre. */
+  padding: 0 var(--gouttiere);
   background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
