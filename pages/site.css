@@ -434,10 +434,35 @@ body::after {
  */
 .saut .gerbe-depart {
   left: 20px;
+  --passage: 0.32s;
 }
 
 .saut .gerbe-retour {
   left: 160px;
+  --passage: 1.58s;
+}
+
+/*
+ * Un flanc par cote, chacun portant ses deux arches. Les pieds sont ecartes de six pixels du
+ * point de passage : le poisson garde ainsi un couloir libre entre les deux gerbes.
+ */
+.saut .flanc {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}
+
+.saut .flanc-droite {
+  margin-left: 6px;
+}
+
+/* Renvoye de l'autre cote du passage, d'ou le retournement autour de son pied. */
+.saut .flanc-gauche {
+  margin-left: -6px;
+  transform: scaleX(-1);
+  transform-origin: 0 100%;
 }
 
 .saut .arche {
@@ -461,11 +486,8 @@ body::after {
   width: 56px;
 }
 
-/* Renvoyee de l'autre cote du passage, d'ou le retournement autour de son pied. */
 .saut .arche-courte {
   width: 45px;
-  transform: scaleX(-1);
-  transform-origin: 0 100%;
 }
 
 /*
@@ -477,24 +499,29 @@ body::after {
   stroke-dashoffset: 18;
 }
 
+/*
+ * Le retard combine deux mesures : l'instant ou le poisson perce la surface, porte par la gerbe,
+ * et le decalage propre a chaque arche — jaillies ensemble, les quatre n'auraient forme qu'un
+ * seul bloc.
+ */
 .saut.joue .arche path {
-  animation: tracer 0.85s ease-out var(--retard) forwards;
+  animation: tracer 0.85s ease-out calc(var(--passage) + var(--decalage)) forwards;
 }
 
-.saut .gerbe-depart .arche-large {
-  --retard: 0.32s;
+.saut .flanc-droite .arche-large {
+  --decalage: 0s;
 }
 
-.saut .gerbe-depart .arche-courte {
-  --retard: 0.38s;
+.saut .flanc-gauche .arche-large {
+  --decalage: 0.03s;
 }
 
-.saut .gerbe-retour .arche-large {
-  --retard: 1.58s;
+.saut .flanc-droite .arche-courte {
+  --decalage: 0.07s;
 }
 
-.saut .gerbe-retour .arche-courte {
-  --retard: 1.64s;
+.saut .flanc-gauche .arche-courte {
+  --decalage: 0.1s;
 }
 
 @keyframes saut {

@@ -57,11 +57,18 @@ function preparerSaut() {
   const scene = document.createElement('div')
   scene.className = 'saut'
   scene.setAttribute('aria-hidden', 'true')
-  // Deux arches nees du meme point, l'une plus ample que l'autre, deployees de part et d'autre.
+  // Deux arches par flanc, l'une plus ample que l'autre, nees du meme pied.
   const gerbe = (ou) =>
     `<span class="gerbe gerbe-${ou}">` +
-    `<span class="arche arche-large">${FORMES.arche}</span>` +
-    `<span class="arche arche-courte">${FORMES.archeCourte}</span>` +
+    ['droite', 'gauche']
+      .map(
+        (cote) =>
+          `<span class="flanc flanc-${cote}">` +
+          `<span class="arche arche-large">${FORMES.arche}</span>` +
+          `<span class="arche arche-courte">${FORMES.archeCourte}</span>` +
+          `</span>`,
+      )
+      .join('') +
     `</span>`
 
   scene.innerHTML =
