@@ -401,8 +401,9 @@ body::after {
  * Les gerbes se comportent comme le poisson : elles montent hors de l'eau puis y retombent, au
  * lieu de s'evanouir en plein air. C'est la surface, posee devant le decor, qui les avale.
  *
- * Deux gouttes par gerbe, qui s'ecartent de part et d'autre du point de passage, avec un leger
- * decalage entre elles — jaillies ensemble, elles auraient l'air d'un seul objet.
+ * Quatre jets, deux par flanc : le principal et celui qui part plus loin et plus haut. Chacun
+ * porte son ecart et son apex, et part avec un leger retard sur le precedent — jaillis ensemble,
+ * ils n'auraient forme qu'un seul bloc.
  */
 .saut .gerbe {
   position: absolute;
@@ -411,26 +412,39 @@ body::after {
   height: 0;
 }
 
-.saut .goutte {
+.saut .jet {
   position: absolute;
   bottom: 0;
   display: block;
-  width: 24px;
+  width: 26px;
+  margin-left: -13px;
   opacity: 0;
 }
 
-.saut .goutte svg {
+.saut .jet svg {
   display: block;
   width: 100%;
   height: auto;
 }
 
-.saut .goutte-g {
-  right: 1px;
+.saut .jet-g {
+  --ecart: -18px;
+  --apex: -40px;
 }
 
-.saut .goutte-d {
-  left: 1px;
+.saut .jet-g-loin {
+  --ecart: -34px;
+  --apex: -54px;
+}
+
+.saut .jet-d {
+  --ecart: 18px;
+  --apex: -40px;
+}
+
+.saut .jet-d-loin {
+  --ecart: 34px;
+  --apex: -54px;
 }
 
 .saut .gerbe-depart {
@@ -441,21 +455,37 @@ body::after {
   left: 180px;
 }
 
-.saut.joue .gerbe-depart .goutte-g {
-  animation: goutte-g 1s ease-out forwards;
+.saut.joue .jet {
+  animation: jet 1s ease-out forwards;
 }
 
-.saut.joue .gerbe-depart .goutte-d {
-  animation: goutte-d 1s ease-out 0.09s forwards;
+.saut.joue .jet-d {
+  animation-delay: 0.05s;
 }
 
-/* Calees sur l'entree dans l'eau, a 1,9 s. */
-.saut.joue .gerbe-retour .goutte-g {
-  animation: goutte-g 1s ease-out 1.82s forwards;
+.saut.joue .jet-g-loin {
+  animation-delay: 0.08s;
 }
 
-.saut.joue .gerbe-retour .goutte-d {
-  animation: goutte-d 1s ease-out 1.91s forwards;
+.saut.joue .jet-d-loin {
+  animation-delay: 0.13s;
+}
+
+/* La gerbe de retour est calee sur l'entree dans l'eau, a 1,9 s. */
+.saut.joue .gerbe-retour .jet {
+  animation-delay: 1.9s;
+}
+
+.saut.joue .gerbe-retour .jet-d {
+  animation-delay: 1.95s;
+}
+
+.saut.joue .gerbe-retour .jet-g-loin {
+  animation-delay: 1.98s;
+}
+
+.saut.joue .gerbe-retour .jet-d-loin {
+  animation-delay: 2.03s;
 }
 
 @keyframes saut {
@@ -478,44 +508,24 @@ body::after {
 }
 
 
-/*
- * Une goutte part sous la crete, monte en s'ecartant, puis retombe dans l'eau. Elle garde son
- * opacite a l'arrivee : c'est la surface qui la masque, pas un fondu.
- */
-@keyframes goutte-g {
-  /* Depart et arrivee sous la crete, a 22 px : plus haut, la goutte se montrait avant de jaillir
-     et restait visible apres etre retombee. */
-  0% {
-    opacity: 0;
-    transform: translate(0, 22px) scale(0.5);
-  }
-  12% {
-    opacity: 1;
-  }
-  45% {
-    transform: translate(-12px, -46px) scale(1);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-20px, 24px) scale(1);
-  }
-}
 
-@keyframes goutte-d {
-  /* Depart et arrivee sous la crete, a 22 px : plus haut, la goutte se montrait avant de jaillir
-     et restait visible apres etre retombee. */
+/*
+ * Un jet part sous la crete, monte en s'ecartant du point de passage, puis retombe dans l'eau.
+ * Il garde son opacite a l'arrivee : c'est la surface qui le masque, pas un fondu.
+ */
+@keyframes jet {
   0% {
     opacity: 0;
-    transform: translate(0, 22px) scale(0.5);
+    transform: translate(0, 22px) scale(0.4);
   }
   12% {
     opacity: 1;
   }
   45% {
-    transform: translate(12px, -46px) scale(1);
+    transform: translate(calc(var(--ecart) * 0.7), var(--apex)) scale(1);
   }
   100% {
     opacity: 1;
-    transform: translate(20px, 24px) scale(1);
+    transform: translate(var(--ecart), 24px) scale(1);
   }
 }
