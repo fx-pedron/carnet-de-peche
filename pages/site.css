@@ -141,19 +141,30 @@ body.menu-ouvert {
   }
 }
 
-/* --- Frise de fin de page --- */
+/* --- Fond de vagues --- */
 
 /*
- * Les vagues montent du bas et se perdent dans le fond : sans ce fondu, la bande se détacherait
- * par une arête nette, et la page semblerait finir deux fois.
+ * Les vagues occupent toute la page, denses en bas et se dissolvant vers le haut : le contenu
+ * paraît sortir de l'eau. Le fondu suit la hauteur de la page plutôt qu'une bande fixe — sur une
+ * page longue, une frise de 200 px se serait lue comme un pied de page décoratif, sans rapport
+ * avec ce qui la précède.
  *
- * Les marges négatives annulent les retraits du corps de page, pour que la frise touche les
- * bords et le bas de l'écran — un footer qui s'arrête à 20 px du bord n'en est pas un.
+ * En couche de fond plutôt qu'en fond du corps de page : un `mask-image` posé sur le corps
+ * effacerait le texte avec le motif.
  */
+body {
+  position: relative;
+  /* Sur une page courte, le corps s'arrête avec son contenu : l'eau se serait interrompue au
+     milieu de l'écran, laissant le bas nu. */
+  min-height: 100vh;
+}
+
 .vagues {
-  height: 200px;
-  margin: 48px -20px -64px;
-  background: url('/vagues.svg') repeat-x left bottom;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 75%);
-  mask-image: linear-gradient(to bottom, transparent, #000 75%);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url('/vagues.svg') repeat left bottom;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 15%, #000 95%);
+  mask-image: linear-gradient(to bottom, transparent 15%, #000 95%);
 }
