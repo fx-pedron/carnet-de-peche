@@ -46,6 +46,14 @@ h1 {
   letter-spacing: -0.01em;
 }
 
+/* Sur téléphone seulement : à 34 px, un titre long comme celui de la politique de
+   confidentialité occupait trois lignes. Les tablettes gardent la taille pleine. */
+@media (max-width: 560px) {
+  h1 {
+    font-size: 28px;
+  }
+}
+
 .sous {
   margin: 0 0 28px;
   color: var(--muted);
