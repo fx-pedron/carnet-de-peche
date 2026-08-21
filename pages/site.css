@@ -1,3 +1,9 @@
+:root {
+  /* Hauteur du SVG de la surface : les deux doivent rester d'accord, sinon le motif se répète
+     ou se rogne. */
+  --hauteur-eau: 77px;
+}
+
 /*
  * Barre de navigation, commune aux pages du site.
  *
@@ -169,21 +175,38 @@ body.menu-ouvert {
 /*
  * Surface de l'eau, devant le contenu.
  *
- * Les blocs s'enfoncent sous elle au lieu de s'arrêter net en bas de l'écran. La forme est
- * remplie du fond de page : c'est ce qui masque le contenu et fait l'illusion.
+ * Les blocs s'enfoncent sous elle au lieu de s'arrêter net en bas de l'écran.
  *
- * Le motif se répète par-dessous, pour que la masse d'eau ne soit pas un aplat.
+ * Une seule couche : le SVG porte à lui seul la découpe, l'eau pleine et le motif immergé.
+ * Confier le remplissage à une couleur de fond CSS remplirait la boîte entière, courbe comprise,
+ * et le bord supérieur redeviendrait une ligne droite.
  */
 .ligne-eau {
   position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
-  height: 78px;
+  height: var(--hauteur-eau);
   z-index: 5;
   pointer-events: none;
-  background:
-    url('/ligne-eau.svg') repeat-x left top,
-    url('/vagues.svg') repeat left bottom,
-    var(--bg);
+  background: url('/ligne-eau.svg') repeat-x left bottom;
+  /* `drop-shadow` épouse la forme réelle, crête par crête, là où `box-shadow` aurait dessiné
+     l'ombre d'un rectangle et trahi la découpe. Portée vers le haut : la surface passe devant le
+     contenu, c'est donc lui qu'elle assombrit. */
+  filter: drop-shadow(0 -5px 12px rgba(0, 0, 0, 0.55));
+}
+
+/*
+ * Réserve sous le contenu, de la hauteur de l'eau.
+ *
+ * La surface étant fixe, elle recouvre le bas de la page quel que soit le défilement : sans cette
+ * réserve, les dernières lignes resteraient noyées et illisibles.
+ *
+ * En pseudo-élément plutôt qu'en marge du corps : chaque page fixe ses propres retraits dans son
+ * bloc de styles, chargé après celui-ci, et les écraserait.
+ */
+body::after {
+  content: '';
+  display: block;
+  height: var(--hauteur-eau);
 }
