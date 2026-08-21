@@ -188,6 +188,15 @@ body::before {
 }
 
 /*
+ * Les puces du corps de page portent six pixels de marge basse, faits pour aerer une liste de
+ * texte. Ici, c'est la boite de marge qui est centree dans la barre : le libelle se retrouvait
+ * trois pixels trop haut, et l'ecart resistait a tout reglage du centrage lui-meme.
+ */
+.nav-menu li {
+  margin: 0;
+}
+
+/*
  * `line-height: 1` colle la boite du lien a son texte. A 1,6, heritee du corps de page, elle
  * depassait de six pixels et le centrage portait sur cette boite trop haute : le libelle se
  * retrouvait cale vers le haut de la barre.
@@ -397,6 +406,10 @@ body::after {
   height: auto;
 }
 
+.saut.joue .poisson {
+  animation: saut 1.9s linear forwards;
+}
+
 /*
  * Les gerbes se comportent comme le poisson : elles montent hors de l'eau puis y retombent, au
  * lieu de s'evanouir en plein air. C'est la surface, posee devant le decor, qui les avale.
@@ -421,30 +434,49 @@ body::after {
   opacity: 0;
 }
 
+/*
+ * La parabole se joue a deux etages : l'ecart horizontal file a vitesse constante sur le bloc,
+ * la hauteur freine puis reaccelere sur le dessin qu'il porte. Une seule animation melant les
+ * deux ne donnait qu'une pointe — la courbe naissait de l'assouplissement, pas de la trajectoire.
+ */
 .saut .jet svg {
   display: block;
   width: 100%;
   height: auto;
 }
 
-.saut .jet-g {
-  --ecart: -18px;
-  --apex: -40px;
+/* Sous `joue`, comme le poisson : hors de la, l'animation partirait au chargement et resterait
+   echouee sur sa derniere image. */
+.saut.joue .jet {
+  animation: jet-ecart 1s linear var(--retard) forwards;
 }
 
-.saut .jet-g-loin {
-  --ecart: -34px;
-  --apex: -54px;
+.saut.joue .jet svg {
+  animation: jet-hauteur 1s var(--retard) forwards;
+}
+
+.saut .jet-g {
+  --ecart: -22px;
+  --apex: -56px;
+  --retard: 0s;
 }
 
 .saut .jet-d {
-  --ecart: 18px;
-  --apex: -40px;
+  --ecart: 22px;
+  --apex: -56px;
+  --retard: 0.05s;
+}
+
+.saut .jet-g-loin {
+  --ecart: -40px;
+  --apex: -70px;
+  --retard: 0.08s;
 }
 
 .saut .jet-d-loin {
-  --ecart: 34px;
-  --apex: -54px;
+  --ecart: 40px;
+  --apex: -70px;
+  --retard: 0.13s;
 }
 
 .saut .gerbe-depart {
@@ -455,37 +487,21 @@ body::after {
   left: 180px;
 }
 
-.saut.joue .jet {
-  animation: jet 1s ease-out forwards;
-}
-
-.saut.joue .jet-d {
-  animation-delay: 0.05s;
-}
-
-.saut.joue .jet-g-loin {
-  animation-delay: 0.08s;
-}
-
-.saut.joue .jet-d-loin {
-  animation-delay: 0.13s;
-}
-
 /* La gerbe de retour est calee sur l'entree dans l'eau, a 1,9 s. */
-.saut.joue .gerbe-retour .jet {
-  animation-delay: 1.9s;
+.saut .gerbe-retour .jet-g {
+  --retard: 1.9s;
 }
 
-.saut.joue .gerbe-retour .jet-d {
-  animation-delay: 1.95s;
+.saut .gerbe-retour .jet-d {
+  --retard: 1.95s;
 }
 
-.saut.joue .gerbe-retour .jet-g-loin {
-  animation-delay: 1.98s;
+.saut .gerbe-retour .jet-g-loin {
+  --retard: 1.98s;
 }
 
-.saut.joue .gerbe-retour .jet-d-loin {
-  animation-delay: 2.03s;
+.saut .gerbe-retour .jet-d-loin {
+  --retard: 2.03s;
 }
 
 @keyframes saut {
@@ -509,23 +525,42 @@ body::after {
 
 
 
+
 /*
- * Un jet part sous la crete, monte en s'ecartant du point de passage, puis retombe dans l'eau.
- * Il garde son opacite a l'arrivee : c'est la surface qui le masque, pas un fondu.
+ * L'ecart horizontal : vitesse constante, comme un projectile que rien ne freine lateralement.
+ * L'opacite voyage ici pour rester solidaire du meme retard.
  */
-@keyframes jet {
+@keyframes jet-ecart {
   0% {
     opacity: 0;
-    transform: translate(0, 22px) scale(0.4);
+    transform: translateX(0);
   }
   12% {
     opacity: 1;
   }
-  45% {
-    transform: translate(calc(var(--ecart) * 0.7), var(--apex)) scale(1);
-  }
   100% {
     opacity: 1;
-    transform: translate(var(--ecart), 24px) scale(1);
+    transform: translateX(var(--ecart));
+  }
+}
+
+/*
+ * La hauteur : montee freinee jusqu'a l'apex a mi-course, chute acceleree ensuite. Ce sont ces
+ * deux assouplissements opposes, sur une horizontale reguliere, qui dessinent la parabole.
+ *
+ * Depart et arrivee sous la crete, a 22 px : plus haut, le jet se montrerait avant de jaillir et
+ * resterait visible apres etre retombe.
+ */
+@keyframes jet-hauteur {
+  0% {
+    transform: translateY(22px) scale(0.5);
+    animation-timing-function: cubic-bezier(0.15, 0.6, 0.4, 1);
+  }
+  50% {
+    transform: translateY(var(--apex)) scale(1);
+    animation-timing-function: cubic-bezier(0.6, 0, 0.85, 0.45);
+  }
+  100% {
+    transform: translateY(26px) scale(1);
   }
 }
