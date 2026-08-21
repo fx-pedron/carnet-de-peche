@@ -293,7 +293,7 @@ body.menu-ouvert {
   /* Bornée : sur un écran très haut, une hauteur en pourcentage aurait noyé la moitié de la vue ;
      sur un écran bas, une hauteur fixe aurait tout occupé. */
   height: clamp(150px, 28vh, 260px);
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
   background: url('/vagues.svg') repeat-x left bottom;
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 85%);
@@ -337,4 +337,122 @@ body::after {
   content: '';
   display: block;
   height: var(--hauteur-eau);
+}
+
+/* --- Le saut du poisson --- */
+
+/*
+ * La scene est fixe, calee sur la surface de l'eau. Le poisson passe derriere elle : il sort donc
+ * de l'onde et y replonge, au lieu de la survoler.
+ */
+.saut {
+  position: fixed;
+  bottom: 0;
+  left: var(--depart, 20vw);
+  /* Derriere le contenu, devant le motif de fond : c'est un decor, il n'a pas a passer par-dessus
+     le texte. La surface de l'eau, elle, reste devant tout et l'avale au depart. */
+  z-index: -1;
+  width: 0;
+  height: 0;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+/*
+ * `offset-path` porte la trajectoire, et `offset-rotate` incline le poisson dans son sens de
+ * marche : la nage suit la parabole sans qu'aucune rotation ne soit ecrite a la main. Les 180
+ * degres viennent du dessin, dont le museau pointe a gauche.
+ */
+.saut .poisson {
+  position: absolute;
+  display: block;
+  width: 40px;
+  /* Invisible au repos : sans mouvement, il flotterait en permanence a la surface, dont il
+     depasse d'une vingtaine de pixels. */
+  opacity: 0;
+  /* Depart et arrivee sous la surface, apex a 160 px : une courbe quadratique n'atteint que la
+     moitie de son point de controle, d'ou le -298. */
+  offset-path: path('M0 -22 Q 90 -298 180 -22');
+  offset-rotate: auto 180deg;
+}
+
+.saut .poisson svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.saut .ecume {
+  position: absolute;
+  display: block;
+  width: 34px;
+  opacity: 0;
+  transform: translate(-50%, -30%);
+}
+
+.saut .ecume svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.saut .ecume-depart {
+  left: 0;
+  bottom: -6px;
+}
+
+.saut .ecume-retour {
+  left: 180px;
+  bottom: -6px;
+}
+
+.saut.joue .poisson {
+  animation: saut 1.9s linear forwards;
+}
+
+.saut.joue .ecume-depart {
+  animation: gerbe 0.7s ease-out forwards;
+}
+
+.saut.joue .ecume-retour {
+  /* Au moment ou le poisson retombe, pas au depart. */
+  animation: gerbe 0.7s ease-out 1.5s forwards;
+}
+
+/*
+ * Aucune variation d'opacite : c'est la surface de l'eau, posee devant, qui masque le poisson au
+ * depart et a l'arrivee. Le faire apparaitre en fondu l'aurait fait naitre en plein air.
+ */
+@keyframes saut {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  /* Le fondu se joue sous la surface, ou l'eau masque deja le poisson : il ne nait donc jamais
+     en plein air. */
+  4% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes gerbe {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -10%) scale(0.6);
+  }
+  35% {
+    opacity: 0.9;
+    transform: translate(-50%, -40%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -55%) scale(1.15);
+  }
 }
