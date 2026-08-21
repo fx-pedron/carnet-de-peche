@@ -168,10 +168,11 @@ body::before {
   text-decoration: none;
 }
 
+/* Vectoriel : le PNG de 32 px, agrandi par la densite de l'ecran, se pixelisait. Le coin arrondi
+   est deja dans le dessin, inutile de le decouper en CSS. */
 .nav-marque img {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
+  width: 32px;
+  height: 32px;
 }
 
 .nav-menu {
