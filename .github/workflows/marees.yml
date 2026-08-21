@@ -1,10 +1,22 @@
-name: Marées
+name: Marées et site
 
-# L'API n'expose que la fenêtre J-30 à J+30 : un rafraîchissement quotidien maintient
-# en permanence un mois de prévisions d'avance à disposition de l'app.
+# GitHub Pages publie un artefact unique qui remplace tout le site : marées et pages statiques
+# doivent donc voyager ensemble à chaque déploiement.
+#
+# D'où deux chemins selon ce qui déclenche l'exécution :
+#
+#   - quotidien, ou lancé à la main : les marées sont regénérées depuis l'API, qui n'expose que
+#     la fenêtre J-30 à J+30 ;
+#   - à la publication d'une page : les marées déjà en ligne sont reprises telles quelles.
+#     Modifier une page n'a aucune raison de coûter 131 appels d'API, un par port.
 on:
   schedule:
     - cron: '17 4 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'pages/**'
+      - '.github/workflows/**'
   workflow_dispatch: {}
 
 permissions:
@@ -30,10 +42,21 @@ jobs:
         with:
           node-version: 22
 
-      - name: Générer marees.json
+      - name: Générer marees.json depuis l'API
+        if: github.event_name != 'push'
         env:
           API_MAREE_KEY: ${{ secrets.API_MAREE_KEY }}
         run: node marees.mjs
+
+      # `--fail` plutôt qu'un fichier vide en cas d'erreur : sans marees.json, l'app perd son
+      # pré-remplissage des marées sans rien signaler. Mieux vaut que la publication échoue.
+      - name: Reprendre les marées déjà publiées
+        if: github.event_name == 'push'
+        run: |
+          mkdir -p site
+          curl --fail --silent --show-error --location \
+            --output site/marees.json https://kerpesk.fr/marees.json
+          echo "marees.json repris : $(wc -c < site/marees.json) octets"
 
       # Le site et les marées partagent une publication unique : les pages statiques doivent
       # donc rejoindre l'artefact à chaque exécution, sans quoi la mise à jour quotidienne des
