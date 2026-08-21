@@ -1,0 +1,142 @@
+/*
+ * Barre de navigation, commune aux pages du site.
+ *
+ * Seule la barre vit ici : chaque page garde son propre bloc de styles. Tout rassembler aurait
+ * demandé de démêler trois feuilles écrites séparément, pour un site de trois pages — le jeu n'en
+ * vaut pas la chandelle. La barre, elle, doit rester identique partout, d'où ce fichier.
+ */
+
+.nav-site {
+  /* Au-dessus du menu déplié, qui couvre la page : le bouton doit rester atteignable pour la
+     refermer. */
+  position: relative;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  /* Le bouton se cale à droite avec ou sans marque : l'accueil s'en passe, son héros portant
+     déjà le logo et le nom, et un `space-between` l'aurait alors ramené à gauche. */
+  justify-content: flex-end;
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto 28px;
+}
+
+/* Le menu déplié est un frère de ces deux-là, dans la pile de la barre : sans rang explicite,
+   il les recouvrirait, bouton de fermeture compris. */
+.nav-marque {
+  position: relative;
+  z-index: 55;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.nav-marque img {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-menu a {
+  color: var(--muted);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.nav-menu a:hover,
+.nav-menu a[aria-current='page'] {
+  color: var(--accent);
+}
+
+/* Le bouton n'existe que sous le seuil : au-dessus, les trois liens tiennent sans se serrer. */
+.nav-burger {
+  position: relative;
+  z-index: 55;
+  display: none;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.nav-burger svg {
+  display: block;
+}
+
+/* `aria-expanded` porte l'état, l'icône le montre : une seule source de vérité pour les deux. */
+.nav-burger .icone-fermer {
+  display: none;
+}
+
+.nav-burger[aria-expanded='true'] .icone-menu {
+  display: none;
+}
+
+.nav-burger[aria-expanded='true'] .icone-fermer {
+  display: block;
+}
+
+/* Le menu couvre la page : la faire défiler derrière lui n'aurait aucun sens. */
+body.menu-ouvert {
+  overflow: hidden;
+}
+
+/* Mobiles et tablettes : le menu se replie derrière le bouton. */
+@media (max-width: 1024px) {
+  .nav-site {
+    flex-wrap: wrap;
+  }
+
+  .nav-burger {
+    display: block;
+  }
+
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  /* En surimpression plutôt qu'inséré dans le flux : déplier le menu ne doit pas pousser la page
+     vers le bas, ni obliger à la faire remonter en le refermant. */
+  .nav-menu.ouvert {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    /* Dégage la hauteur de la barre, pour que le premier lien ne passe pas sous le bouton. */
+    padding: 104px 20px 0;
+    background: var(--bg);
+  }
+
+  .nav-menu li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .nav-menu a {
+    display: block;
+    padding: 18px 4px;
+    font-size: 19px;
+    color: var(--text);
+  }
+
+  .nav-menu a[aria-current='page'] {
+    color: var(--accent);
+  }
+}

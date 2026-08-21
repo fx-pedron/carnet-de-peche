@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kerpesk — Releases</title>
+    <meta name="description" content="Les versions de Kerpesk, et ce que chacune a changé." />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/site.css" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #07141f;
+        --surface: #0e2233;
+        --line: #1e4360;
+        --text: #eaf4fb;
+        --muted: #8fb0c6;
+        --accent: #5fefd7;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 48px 20px 64px;
+        background: var(--bg);
+        color: var(--text);
+        font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      main { max-width: 640px; margin: 0 auto; }
+      h1 { font-size: 34px; margin: 0 0 6px; letter-spacing: -0.01em; }
+      .sous { color: var(--muted); margin: 0 0 28px; }
+      section {
+        padding: 18px 20px;
+        margin-bottom: 14px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: var(--surface);
+      }
+      .version { margin: 0 0 14px; font-size: 20px; color: var(--accent); }
+      h3 {
+        margin: 18px 0 8px;
+        font-size: 13px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      h3:first-of-type { margin-top: 0; }
+      p { margin: 0 0 10px; }
+      p:last-child { margin-bottom: 0; }
+      ul { margin: 0 0 10px; padding-left: 20px; color: var(--muted); }
+      li { margin-bottom: 6px; }
+      a { color: var(--accent); }
+      footer { margin-top: 28px; color: var(--muted); font-size: 14px; text-align: center; }
+    </style>
+  </head>
+  <body>
+    <nav class="nav-site">
+      <a class="nav-marque" href="/">
+        <img src="/favicon.png" alt="" width="30" height="30" />
+        Kerpesk
+      </a>
+      <button
+        class="nav-burger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="menu-site"
+        aria-label="Ouvrir le menu"
+      >
+        <svg class="icone-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18" />
+        </svg>
+        <svg class="icone-fermer" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+      <ul class="nav-menu" id="menu-site">
+        <li><a href="/">Kerpesk App</a></li>
+        <li><a href="/releases.html" aria-current="page">Releases</a></li>
+        <li><a href="/confidentialite.html">Politique de confidentialité</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <h1>Releases</h1>
+      <p class="sous">Les versions de Kerpesk, de la plus récente à la plus ancienne.</p>
+
+      <section>
+        <h2 class="version">2.5 — 21 août 2026</h2>
+        <h3>Sauvegarde</h3>
+        <p>L'export du carnet propose désormais d'intégrer les photos en indiquant le poids supplémentaire. Le nom du fichier distingue les deux sauvegardes.</p>
+        <h3>Partage</h3>
+        <p>Un bandeau de vignettes permet de choisir la photo de fond de la carte, ou de n'en retenir aucune : le motif de l'écran de démarrage prend alors sa place. Un nom de sortie trop long passe à la ligne au lieu d'être coupé.</p>
+        <h3>Badges</h3>
+        <p>Six badges de poissons de légende : thon, requin, denti, sériole, raie, et un dernier pour les cinq réunis. Le badge du golfe du Mexique change de nom.</p>
+        <h3>Écran de démarrage</h3>
+        <p>Nouveau visuel, vagues sur fond clair.</p>
+      </section>
+      <section>
+        <h2 class="version">2.4 — 20 août 2026</h2>
+        <h3>Partage</h3>
+        <p>Une sortie terminée se partage sous forme d'image, envoyée par la feuille de partage du téléphone — Instagram, WhatsApp, Messages ou mail. La carte porte la date, le nom de la sortie, la plus belle prise, les chiffres de la sortie et une signature Kerpesk. La photo d'une prise occupe le fond quand il y en a une. Le nom du spot n'y figure que sur demande.</p>
+        <h3>Correction</h3>
+        <p>Les fenêtres ouvertes depuis le détail d'une sortie passaient sous la carte des prises.</p>
+      </section>
+      <section>
+        <h2 class="version">2.3 — 20 août 2026</h2>
+        <h3>Matériel</h3>
+        <p>L'onglet Leurres devient Matériel, avec deux entrées : Cannes et Leurres. Un montage réunit une canne, un moulinet, un corps de ligne et un bas de ligne. Le montage favori est présélectionné au démarrage d'une sortie, et reste modifiable en cours de route. Les composants se créent depuis le montage ou séparément. Le matériel retiré du service sort des listes de choix sans quitter l'historique des sorties où il a servi. Chaque montage dispose de ses statistiques : temps de pêche, prises, rendement, plus gros poisson, leurre le plus rentable et répartition par espèce.</p>
+        <h3>Statistiques</h3>
+        <p>Le temps de pêche total ouvre le tableau de bord. La carte « zone préférée » mène au détail par mer, chaque mer étant calculée à part, temps de pêche compris.</p>
+        <h3>Spots</h3>
+        <p>Le spot proposé à la clôture d'une sortie reprend le nom déjà donné au coin, à défaut le port de référence des marées. Les coordonnées ne servent plus que de dernier recours, ce qui regroupe les sorties d'un même endroit.</p>
+        <h3>Badges</h3>
+        <p>Neuf badges de matériel. Un badge obtenu le reste définitivement.</p>
+      </section>
+      <section>
+        <h2 class="version">2.2 — 20 août 2026</h2>
+        <h3>Corrections</h3>
+        <ul>
+          <li>L'export ne produisait aucun fichier sur Android, sans le signaler.</li>
+          <li>Les listes déroulantes espèce et port faisaient sauter l'affichage au défilement.</li>
+          <li>Le champ gardait le focus après un choix et refusait de rouvrir sa liste.</li>
+          <li>Un déblocage groupé annonçait chaque badge en double.</li>
+        </ul>
+        <h3>Météo</h3>
+        <p>Le vocabulaire du ciel passe de cinq à huit termes : dégagé, peu nuageux, nuageux, couvert, pluie, averses, orageux, brouillard. Le remplissage automatique s'appuie sur le code météo de l'OMM, qui distingue une averse d'une pluie continue et reconnaît orage et brouillard. Les sorties déjà saisies sont reprises.</p>
+      </section>
+
+      <footer>Kerpesk — carnet de pêche en mer.</footer>
+    </main>
+    <script src="/site.js"></script>
+  </body>
+</html>

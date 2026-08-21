@@ -10,6 +10,7 @@
     />
     <link rel="icon" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/site.css" />
     <style>
       :root {
         color-scheme: dark;
@@ -54,6 +55,32 @@
     </style>
   </head>
   <body>
+    <nav class="nav-site">
+      <a class="nav-marque" href="/">
+        <img src="/favicon.png" alt="" width="30" height="30" />
+        Kerpesk
+      </a>
+      <button
+        class="nav-burger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="menu-site"
+        aria-label="Ouvrir le menu"
+      >
+        <svg class="icone-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18" />
+          </svg>
+          <svg class="icone-fermer" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+      </button>
+      <ul class="nav-menu" id="menu-site">
+        <li><a href="/">Kerpesk App</a></li>
+        <li><a href="/releases.html">Releases</a></li>
+        <li><a href="/confidentialite.html" aria-current="page">Politique de confidentialité</a></li>
+      </ul>
+    </nav>
+
     <main>
       <h1>Politique de confidentialité</h1>
       <p class="maj">Application Kerpesk — carnet de pêche en mer. Mise à jour le 19 août 2026.</p>
@@ -174,5 +201,6 @@
 
       <footer>Kerpesk — du breton <em>kêr</em>, le village, et <em>pesk</em>, le poisson.</footer>
     </main>
-  </body>
+    <script src="/site.js"></script>
+</body>
 </html>
