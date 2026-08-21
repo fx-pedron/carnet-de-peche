@@ -144,27 +144,24 @@ body.menu-ouvert {
 /* --- Fond de vagues --- */
 
 /*
- * Les vagues occupent toute la page, denses en bas et se dissolvant vers le haut : le contenu
- * paraît sortir de l'eau. Le fondu suit la hauteur de la page plutôt qu'une bande fixe — sur une
- * page longue, une frise de 200 px se serait lue comme un pied de page décoratif, sans rapport
- * avec ce qui la précède.
+ * Les vagues restent au bas de la vue, quel que soit le défilement : le contenu glisse par-dessus
+ * l'eau au lieu de s'en éloigner. Attachées au document, elles n'auraient été visibles qu'en bas
+ * de page, et jamais pendant la lecture.
  *
  * En couche de fond plutôt qu'en fond du corps de page : un `mask-image` posé sur le corps
  * effacerait le texte avec le motif.
  */
-body {
-  position: relative;
-  /* Sur une page courte, le corps s'arrête avec son contenu : l'eau se serait interrompue au
-     milieu de l'écran, laissant le bas nu. */
-  min-height: 100vh;
-}
-
 .vagues {
-  position: absolute;
-  inset: 0;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* Bornée : sur un écran très haut, une hauteur en pourcentage aurait noyé la moitié de la vue ;
+     sur un écran bas, une hauteur fixe aurait tout occupé. */
+  height: clamp(150px, 28vh, 260px);
   z-index: -1;
   pointer-events: none;
-  background: url('/vagues.svg') repeat left bottom;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 15%, #000 95%);
-  mask-image: linear-gradient(to bottom, transparent 15%, #000 95%);
+  background: url('/vagues.svg') repeat-x left bottom;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 85%);
+  mask-image: linear-gradient(to bottom, transparent, #000 85%);
 }
