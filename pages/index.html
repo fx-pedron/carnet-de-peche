@@ -18,6 +18,11 @@
     <meta property="og:image" content="https://kerpesk.fr/kerpesk.png" />
     <link rel="stylesheet" href="/site.css" />
     <style>
+      /* Titre et sous-titre au plus pres : l'interligne du corps de page laissait un blanc
+         inutile sous « Kerpesk ». */
+      .entete h1 { margin-bottom: 0; line-height: 1.1; }
+      /* Accroche du bloc de presentation : le h2 du socle est trop discret pour ce role. */
+      .accroche { margin: 0 0 12px; font-size: 19px; letter-spacing: -0.01em; }
       /* En-tête : logo et titre côte à côte, empilés sur les écrans étroits. */
       .entete {
         display: flex;
@@ -111,13 +116,14 @@
 
       <section class="lancer">
         <div class="argument">
+          <h2 class="accroche">Ce que Kerpesk retient pour toi</h2>
           <p>
             Le chrono tourne pendant que tu pêches. Tu notes tes prises sur le moment, Kerpesk
             note le reste : marée à l'heure exacte, position, leurre monté.
           </p>
           <p>
             Sortie après sortie, il te dit à quelle marée ça mord et quel leurre mérite sa place
-            dans la boîte. Au temps de pêche, pas au nombre de prises.
+            dans ta boîte.
           </p>
           <p>
             <strong>Tout reste sur ton téléphone.</strong> Pas de compte, pas de pub. Tes spots
