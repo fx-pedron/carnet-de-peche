@@ -396,14 +396,15 @@ body::after {
   height: auto;
 }
 
+/* A hauteur de la crete, pas au ras du bord : a -6 px elles tombaient sous l'ecran. */
 .saut .ecume-depart {
   left: 0;
-  bottom: -6px;
+  bottom: 46px;
 }
 
 .saut .ecume-retour {
   left: 180px;
-  bottom: -6px;
+  bottom: 46px;
 }
 
 .saut.joue .poisson {

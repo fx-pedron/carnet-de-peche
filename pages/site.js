@@ -60,12 +60,27 @@ function preparerSaut() {
     `<span class="ecume ecume-retour">${FORMES.ecume}</span>`
   document.body.appendChild(scene)
 
+  // Largeur de la parabole, cf. `offset-path` dans site.css.
+  const ARC = 180
+
+  /*
+   * Position tiree au sort : au meme endroit a chaque fois, le saut deviendrait un tic.
+   *
+   * Sur un ecran etroit, le bloc de contenu occupe presque toute la largeur et son fond est
+   * opaque : le decor ne se voit que dans les gouttieres. On y cale donc le sommet du saut, seul
+   * moment ou le poisson passe assez haut pour etre apercu.
+   */
+  const departAuSort = () => {
+    const l = window.innerWidth
+    if (l >= 900) return 60 + Math.random() * Math.max(1, l - ARC - 120)
+    return Math.random() < 0.5 ? -ARC / 2 + 10 : l - ARC / 2 - 10
+  }
+
   const sauter = () => {
     // Onglet en arriere-plan : le navigateur bride les minuteries, et l'animation se jouerait
     // en rafale au retour. Autant la sauter.
     if (document.visibilityState !== 'visible') return
-    // Position tiree au sort : au meme endroit a chaque fois, le saut deviendrait un tic.
-    scene.style.setProperty('--depart', `${8 + Math.random() * 60}vw`)
+    scene.style.setProperty('--depart', `${departAuSort()}px`)
     scene.classList.remove('joue')
     // Forcer un reflow, sans quoi retirer puis remettre la classe ne relance rien.
     void scene.offsetWidth
