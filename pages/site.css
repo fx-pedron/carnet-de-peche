@@ -376,6 +376,12 @@ body::after {
   offset-rotate: auto 180deg;
 }
 
+/* Saut vers la gauche : la scene entiere est retournee, ce qui inverse aussi le sens de nage
+   puisque l'inclinaison suit la trajectoire. */
+.saut.miroir {
+  transform: scaleX(-1);
+}
+
 .saut .poisson svg {
   display: block;
   width: 100%;
@@ -385,7 +391,7 @@ body::after {
 .saut .ecume {
   position: absolute;
   display: block;
-  width: 34px;
+  width: 48px;
   opacity: 0;
   transform: translate(-50%, -30%);
 }
@@ -396,15 +402,18 @@ body::after {
   height: auto;
 }
 
-/* A hauteur de la crete, pas au ras du bord : a -6 px elles tombaient sous l'ecran. */
+/*
+ * Juste au-dessus de la crete, et non dedans : la surface de l'eau passe devant le decor, elle
+ * avalait donc les gerbes posees a l'interieur de la bande.
+ */
 .saut .ecume-depart {
   left: 0;
-  bottom: 46px;
+  bottom: 74px;
 }
 
 .saut .ecume-retour {
   left: 180px;
-  bottom: 46px;
+  bottom: 74px;
 }
 
 .saut.joue .poisson {
@@ -449,7 +458,7 @@ body::after {
     transform: translate(-50%, -10%) scale(0.6);
   }
   35% {
-    opacity: 0.9;
+    opacity: 1;
     transform: translate(-50%, -40%) scale(1);
   }
   100% {

@@ -38,7 +38,9 @@ if (burger && menu) {
  * Le poisson passe DERRIERE la surface de l'eau : il sort donc de l'onde et y replonge, au lieu
  * de la survoler. C'est le meme empilement qui fait s'enfoncer les blocs.
  */
-const INTERVALLE = 40000
+// Attente entre deux sauts, tiree au sort : un intervalle fixe se remarquerait comme un tic.
+const ATTENTE_MIN = 40000
+const ATTENTE_MAX = 70000
 
 const FORMES = {
   poisson: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="284.48 -23.96 149.80 115.36" width="150" height="115" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round"><path d="M424.277 11.0381C399.493 34.702 354.125 81.401 294.475 28.0509C352.445 -13.9552 387.731 11.0385 424.277 45.0638"/></svg>',
@@ -64,31 +66,48 @@ function preparerSaut() {
   const ARC = 180
 
   /*
-   * Position tiree au sort : au meme endroit a chaque fois, le saut deviendrait un tic.
+   * Ou et dans quel sens sauter.
    *
-   * Sur un ecran etroit, le bloc de contenu occupe presque toute la largeur et son fond est
-   * opaque : le decor ne se voit que dans les gouttieres. On y cale donc le sommet du saut, seul
-   * moment ou le poisson passe assez haut pour etre apercu.
+   * Le bloc de contenu est opaque : le decor ne se voit que dans les marges qui l'encadrent. On y
+   * cale donc le sommet du saut, a gauche ou a droite, dans un sens ou dans l'autre — quatre
+   * combinaisons, de quoi ne pas se repeter.
    */
-  const departAuSort = () => {
+  const tirage = () => {
     const l = window.innerWidth
-    if (l >= 900) return 60 + Math.random() * Math.max(1, l - ARC - 120)
-    return Math.random() < 0.5 ? -ARC / 2 + 10 : l - ARC / 2 - 10
+    const gouttiere = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--gouttiere'), 10) || 20
+    const colonne = Math.min(720, l - 2 * gouttiere)
+    const marge = Math.max(gouttiere, (l - colonne) / 2)
+
+    const aGauche = Math.random() < 0.5
+    const sommet = aGauche
+      ? 8 + Math.random() * Math.max(1, marge - 16)
+      : l - 8 - Math.random() * Math.max(1, marge - 16)
+
+    const miroir = Math.random() < 0.5
+    return { depart: sommet - (miroir ? -1 : 1) * (ARC / 2), miroir }
   }
 
   const sauter = () => {
     // Onglet en arriere-plan : le navigateur bride les minuteries, et l'animation se jouerait
     // en rafale au retour. Autant la sauter.
     if (document.visibilityState !== 'visible') return
-    scene.style.setProperty('--depart', `${departAuSort()}px`)
+    const { depart, miroir } = tirage()
+    scene.style.setProperty('--depart', `${depart}px`)
+    scene.classList.toggle('miroir', miroir)
     scene.classList.remove('joue')
     // Forcer un reflow, sans quoi retirer puis remettre la classe ne relance rien.
     void scene.offsetWidth
     scene.classList.add('joue')
   }
 
-  setTimeout(sauter, 4000)
-  setInterval(sauter, INTERVALLE)
+  // Reprogramme a chaque fois plutot qu'un intervalle fixe, pour que l'attente varie.
+  const programmer = (delai) =>
+    setTimeout(() => {
+      sauter()
+      programmer(ATTENTE_MIN + Math.random() * (ATTENTE_MAX - ATTENTE_MIN))
+    }, delai)
+
+  programmer(4000)
 }
 
 preparerSaut()
