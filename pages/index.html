@@ -18,26 +18,6 @@
     <meta property="og:image" content="https://kerpesk.fr/kerpesk.png" />
     <link rel="stylesheet" href="/site.css" />
     <style>
-      :root {
-        color-scheme: dark;
-        --bg: #07141f;
-        --surface: #0e2233;
-        --line: #1e4360;
-        --text: #eaf4fb;
-        --muted: #8fb0c6;
-        --accent: #5fefd7;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        /* 28 px en haut, la même respiration que sous le bloc de titre : au-dessus, le contenu
-           s'arrêtait pile en bas de l'ecran et rien n'invitait à faire defiler. */
-        padding: 28px 20px 64px;
-        background: var(--bg);
-        color: var(--text);
-        font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      }
-      main { max-width: 640px; margin: 0 auto; }
       /* En-tête : logo et titre côte à côte, empilés sur les écrans étroits. */
       .entete {
         display: flex;
@@ -52,28 +32,16 @@
         border-radius: 20px;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
       }
-      h1 { font-size: 34px; margin: 0 0 6px; letter-spacing: -0.01em; }
-      .sous { color: var(--muted); margin: 0; }
+      /* Le sous-titre colle au titre dans l'en-tête, la marge du socle y ferait un trou. */
+      .entete .sous { margin-bottom: 0; }
       @media (max-width: 460px) {
         .entete { flex-direction: column; align-items: flex-start; gap: 14px; }
       }
-      section {
-        padding: 18px 20px;
-        margin-bottom: 14px;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        background: var(--surface);
-      }
       h2 { margin: 0 0 8px; font-size: 15px; }
-      p { margin: 0 0 10px; }
-      p:last-child { margin-bottom: 0; }
-      ul { margin: 0; padding-left: 20px; color: var(--muted); }
-      li { margin-bottom: 6px; }
-      a { color: var(--accent); }
       ol { margin: 0 0 12px; padding-left: 22px; color: var(--muted); }
       ol li { margin-bottom: 6px; }
       .note { color: var(--muted); font-size: 14px; }
-      /* Capture à droite sur écran large, sous le texte sur mobile — voir la requête plus bas. */
+      /* Capture à droite sur écran large, sous le texte sur mobile. */
       .lancer {
         display: flex;
         align-items: center;
@@ -103,7 +71,6 @@
         font-weight: 700;
         text-decoration: none;
       }
-      footer { margin-top: 32px; color: var(--muted); font-size: 14px; }
     </style>
   </head>
   <body>

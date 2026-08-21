@@ -9,34 +9,9 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="/site.css" />
     <style>
-      :root {
-        color-scheme: dark;
-        --bg: #07141f;
-        --surface: #0e2233;
-        --line: #1e4360;
-        --text: #eaf4fb;
-        --muted: #8fb0c6;
-        --accent: #5fefd7;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        padding: 48px 20px 64px;
-        background: var(--bg);
-        color: var(--text);
-        font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      }
-      main { max-width: 640px; margin: 0 auto; }
-      h1 { font-size: 34px; margin: 0 0 6px; letter-spacing: -0.01em; }
-      .sous { color: var(--muted); margin: 0 0 28px; }
-      section {
-        padding: 18px 20px;
-        margin-bottom: 14px;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        background: var(--surface);
-      }
+      /* Numéro de version, en tête de chaque bloc. */
       .version { margin: 0 0 14px; font-size: 20px; color: var(--accent); }
+      /* Intertitre à l'intérieur d'un bloc : le h2 y est déjà pris par la version. */
       h3 {
         margin: 18px 0 8px;
         font-size: 13px;
@@ -45,12 +20,7 @@
         color: var(--muted);
       }
       h3:first-of-type { margin-top: 0; }
-      p { margin: 0 0 10px; }
-      p:last-child { margin-bottom: 0; }
-      ul { margin: 0 0 10px; padding-left: 20px; color: var(--muted); }
-      li { margin-bottom: 6px; }
-      a { color: var(--accent); }
-      footer { margin-top: 28px; color: var(--muted); font-size: 14px; text-align: center; }
+      footer { text-align: center; }
     </style>
   </head>
   <body>

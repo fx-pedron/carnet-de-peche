@@ -1,10 +1,95 @@
 :root {
+  color-scheme: dark;
+  --bg: #07141f;
+  --surface: #0e2233;
+  --line: #1e4360;
+  --text: #eaf4fb;
+  --muted: #8fb0c6;
+  --accent: #5fefd7;
   /* Hauteur du SVG de la surface : les deux doivent rester d'accord, sinon le motif se répète
      ou se rogne. */
   --hauteur-eau: 77px;
   /* Hauteur de la barre : sert aussi à réserver la place du contenu sous elle, et à décaler le
      menu déplié. */
   --hauteur-barre: 78px;
+}
+
+/* --- Socle commun aux pages --- */
+
+/*
+ * Ce qui doit se ressembler d'une page à l'autre vit ici : le corps, la colonne, les titres, les
+ * blocs. Chaque page n'a gardé dans son propre bloc que ce qui lui est propre.
+ *
+ * Le socle était auparavant recopié dans les trois feuilles, écrites séparément : la colonne y
+ * mesurait 640 px sur deux pages et 720 sur la troisième, et le titre 34 px contre 26.
+ */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 28px 20px 64px;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 34px;
+  letter-spacing: -0.01em;
+}
+
+.sous {
+  margin: 0 0 28px;
+  color: var(--muted);
+}
+
+section {
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+p:last-child,
+ul:last-child {
+  margin-bottom: 0;
+}
+
+ul {
+  margin: 0 0 10px;
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+strong {
+  color: var(--text);
+}
+
+a {
+  color: var(--accent);
+}
+
+footer {
+  margin-top: 32px;
+  color: var(--muted);
+  font-size: 14px;
 }
 
 /*
