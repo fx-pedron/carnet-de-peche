@@ -4,7 +4,7 @@
   --hauteur-eau: 77px;
   /* Hauteur de la barre : sert aussi à réserver la place du contenu sous elle, et à décaler le
      menu déplié. */
-  --hauteur-barre: 58px;
+  --hauteur-barre: 78px;
 }
 
 /*
@@ -32,7 +32,9 @@
   justify-content: space-between;
   gap: 16px;
   height: var(--hauteur-barre);
-  padding: 0 20px;
+  /* 24 px au-dessus et en dessous du logo, qui est l'élément le plus haut de la barre, et 32 aux
+     bords : à 20, le logo touchait presque le cadre de l'écran. */
+  padding: 0 32px;
   background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
