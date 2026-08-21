@@ -140,3 +140,20 @@ body.menu-ouvert {
     color: var(--accent);
   }
 }
+
+/* --- Frise de fin de page --- */
+
+/*
+ * Les vagues montent du bas et se perdent dans le fond : sans ce fondu, la bande se détacherait
+ * par une arête nette, et la page semblerait finir deux fois.
+ *
+ * Les marges négatives annulent les retraits du corps de page, pour que la frise touche les
+ * bords et le bas de l'écran — un footer qui s'arrête à 20 px du bord n'en est pas un.
+ */
+.vagues {
+  height: 200px;
+  margin: 48px -20px -64px;
+  background: url('/vagues.svg') repeat-x left bottom;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 75%);
+  mask-image: linear-gradient(to bottom, transparent, #000 75%);
+}
