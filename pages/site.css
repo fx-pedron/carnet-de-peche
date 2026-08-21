@@ -421,12 +421,13 @@ body::after {
 }
 
 .saut.joue .ecume-depart {
-  animation: gerbe 0.7s ease-out forwards;
+  animation: gerbe 0.6s ease-out forwards;
 }
 
 .saut.joue .ecume-retour {
-  /* Au moment ou le poisson retombe, pas au depart. */
-  animation: gerbe 0.7s ease-out 1.5s forwards;
+  /* Cale sur l'entree dans l'eau, a 1,9 s : a 1,5 s la gerbe jaillissait alors que le poisson
+     etait encore en l'air, plus loin sur sa courbe. */
+  animation: gerbe 0.6s ease-out 1.82s forwards;
 }
 
 /*
@@ -457,7 +458,9 @@ body::after {
     opacity: 0;
     transform: translate(-50%, -10%) scale(0.6);
   }
-  35% {
+  /* Sommet atteint tot : la gerbe doit culminer a l'instant ou le poisson perce la surface, pas
+     un tiers de seconde plus tard, quand il s'est deja eloigne. */
+  15% {
     opacity: 1;
     transform: translate(-50%, -40%) scale(1);
   }
