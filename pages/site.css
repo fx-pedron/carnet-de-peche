@@ -314,6 +314,10 @@ body.menu-ouvert {
   z-index: -2;
   pointer-events: none;
   background: url('/vagues.svg') repeat-x left bottom;
+  /* Largeur entiere : a 1212,64 px la tuile ne tombe jamais sur la grille de pixels, et le
+     navigateur peut laisser un filet clair a chaque repetition. L'etirement est de trois
+     centiemes de pour cent. */
+  background-size: 1213px auto;
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 85%);
   mask-image: linear-gradient(to bottom, transparent, #000 85%);
 }
@@ -336,6 +340,7 @@ body.menu-ouvert {
   z-index: 5;
   pointer-events: none;
   background: url('/ligne-eau.svg') repeat-x left bottom;
+  background-size: 1213px auto;
   /* `drop-shadow` épouse la forme réelle, crête par crête, là où `box-shadow` aurait dessiné
      l'ombre d'un rectangle et trahi la découpe. Portée vers le haut : la surface passe devant le
      contenu, c'est donc lui qu'elle assombrit. */
