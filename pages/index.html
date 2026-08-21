@@ -30,7 +30,9 @@
       * { box-sizing: border-box; }
       body {
         margin: 0;
-        padding: 48px 20px 64px;
+        /* 28 px en haut, la même respiration que sous le bloc de titre : au-dessus, le contenu
+           s'arrêtait pile en bas de l'ecran et rien n'invitait à faire defiler. */
+        padding: 28px 20px 64px;
         background: var(--bg);
         color: var(--text);
         font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
