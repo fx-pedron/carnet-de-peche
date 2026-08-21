@@ -36,7 +36,9 @@ body {
 }
 
 main {
-  max-width: 640px;
+  /* Une seule valeur suffit : en dessous de cette largeur, ce sont les retraits du corps qui
+     fixent la colonne, et le plafond ne joue plus. */
+  max-width: 720px;
   margin: 0 auto;
 }
 
