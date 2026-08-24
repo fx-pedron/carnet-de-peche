@@ -5,7 +5,7 @@
   --line: #1e4360;
   --text: #eaf4fb;
   --muted: #8fb0c6;
-  --accent: #5fefd7;
+  --accent: #5eeecd;
   /* Hauteur du SVG de la surface : les deux doivent rester d'accord, sinon le motif se répète
      ou se rogne. */
   --hauteur-eau: 77px;
