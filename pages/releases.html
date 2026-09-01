@@ -55,6 +55,13 @@
       <p class="sous">Les versions de Kerpesk, de la plus récente à la plus ancienne.</p>
 
       <section>
+        <h2 class="version">3.4 — 1er septembre 2026</h2>
+        <h3>Le clavier se ferme</h3>
+        <p>L'app n'emploie aucun `&lt;form&gt;` : la touche de validation du système n'avait donc rien à déclencher, et le clavier restait ouvert sur le dernier champ, sans que rien à l'écran ne dise comment s'en défaire. « Terminé » retire maintenant le focus du champ, et demande en plus au système de replier le clavier — le seul retrait du focus n'y suffit pas sur toutes les WebView.</p>
+        <h3>Le relevé du clavier, à deux temps</h3>
+        <p>Le diagnostic caché derrière le numéro de version ne gardait que le dernier calcul. Comme il se lit dans les paramètres, écran sans champ de saisie, ce dernier calcul était toujours celui d'un clavier fermé : il montrait la fenêtre au repos et taisait précisément ce qu'on cherchait. Le premier relevé remonté d'un Huawei donnait ainsi trois hauteurs identiques, et n'a servi qu'à écarter une hypothèse. Il garde désormais deux relevés — la fenêtre au repos, et la fenêtre pendant que le clavier était ouvert — plus la hauteur que le système annonce pour le clavier, qui dit qu'un clavier est là même là où aucune mesure web ne bouge. Un second appui copie le tout dans le presse-papier. Le panneau réduit à un bandeau sur EMUI n'est pas corrigé ici. Deux compensations du clavier se superposent — celle de Capacitor et la nôtre — et laquelle retirer dépend d'une mesure qui ne se prend que sur l'appareil. Cette version sert à la prendre.</p>
+      </section>
+      <section>
         <h2 class="version">3.3 — 1er septembre 2026</h2>
         <h3>Kerpesk sort de France</h3>
         <p>Vingt-deux pays au premier lancement. Un écran d'accueil devine le tien au fuseau horaire, te laisse le corriger, et annonce ce qu'il saura faire chez toi — chaque pays porte ses deux capacités, marées et tailles réglementaires.</p>
