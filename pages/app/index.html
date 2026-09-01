@@ -4,7 +4,12 @@
     <meta charset="UTF-8" />
     <!-- Surtout pas d'`interactive-widget` ici : sur Android, `adjustResize` rétrécit déjà la
          fenêtre native, et demander en plus au moteur web de retrancher le clavier soustrait sa
-         hauteur deux fois — la WebView tombait à 54 pixels sur Huawei. -->
+         hauteur deux fois — la WebView tombait à 54 pixels sur Huawei.
+
+         `viewport-fit=cover`, en revanche, reste indispensable : c'est lui qui fait renseigner
+         `env(safe-area-inset-*)` par la WebView. Il déclenchait aussi le calage du clavier par
+         Capacitor, d'où un second retrait sur Android 12 ; c'est ce calage qu'on a désactivé,
+         via `SystemBars.insetsHandling`, plutôt que la couverture d'écran. Voir src/lib/clavier.js. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
     <meta name="theme-color" content="#07141f" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -19,7 +24,7 @@
       media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
     />
     <title>Kerpesk — Carnet de pêche</title>
-    <script type="module" crossorigin src="./assets/index-Bq0BCY1u.js"></script>
+    <script type="module" crossorigin src="./assets/index-Z_xeRYUi.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-DnliPD_f.css">
   <link rel="manifest" href="./manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="./registerSW.js"></script></head>
   <body>

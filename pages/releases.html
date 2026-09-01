@@ -55,6 +55,11 @@
       <p class="sous">Les versions de Kerpesk, de la plus récente à la plus ancienne.</p>
 
       <section>
+        <h2 class="version">3.5 — 1er septembre 2026</h2>
+        <h3>Le formulaire réduit à un bandeau, sur Huawei</h3>
+        <p>Trois versions à corriger à côté. Le relevé de la 3.4, pris sur l'appareil, a tranché en une ligne : fenêtre de 702 points, clavier annoncé à 345, WebView mesurée à <strong>54</strong>. Deux retraits pour un seul clavier. Le coupable n'était pas notre calcul — il valait zéro, à raison. Capacitor 8 cale lui-même la WebView sur le clavier dès qu'elle dépasse la version 140 et que la page demande `viewport-fit=cover`, nos deux conditions. Il le fait en supposant que la fenêtre native ne se redimensionne pas, ce qui n'est vrai qu'en edge-to-edge, donc à partir d'Android 15. Sous EMUI 12, qui est un Android 12, `adjustResize` rétrécit encore la fenêtre : le calage s'ajoutait au lieu de remplacer. Une seule autorité compense désormais le clavier, la nôtre — `SystemBars.insetsHandling` passe à `disable`. Les encoches et barres système ne bougent pas : la feuille de style n'emploie que la fonction native `env(safe-area-inset-*)`, jamais les variables qu'injectait Capacitor. Au passage, `Keyboard.resize` disparaît de la configuration : le greffon ne lit plus cette clé depuis Capacitor 8, elle ne décrivait plus rien.</p>
+      </section>
+      <section>
         <h2 class="version">3.4 — 1er septembre 2026</h2>
         <h3>Le clavier se ferme</h3>
         <p>L'app n'emploie aucun `&lt;form&gt;` : la touche de validation du système n'avait donc rien à déclencher, et le clavier restait ouvert sur le dernier champ, sans que rien à l'écran ne dise comment s'en défaire. « Terminé » retire maintenant le focus du champ, et demande en plus au système de replier le clavier — le seul retrait du focus n'y suffit pas sur toutes les WebView.</p>
