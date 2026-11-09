@@ -20,7 +20,7 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -36,7 +36,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deploiement.outputs.page_url }}
     steps:
+      # Les identifiants restent dans le clone : le commit d'entretien, en fin de job, pousse
+      # avec eux.
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: true
 
       - uses: actions/setup-node@v7
         with:
@@ -72,3 +76,23 @@ jobs:
 
       - id: deploiement
         uses: actions/deploy-pages@v5
+
+      # GitHub désactive un workflow planifié dès 60 jours sans activité sur le dépôt, et les
+      # exécutions de ce workflow n'en sont pas : seuls les commits comptent. Un mois sans
+      # toucher au code suffit donc à perdre les marées, d'où ce commit d'entretien tous les
+      # 30 jours. Le fichier touché est hors des `paths` du déclencheur `push` : la publication
+      # ne se relance pas en cascade.
+      - name: Garder le workflow en vie
+        if: github.event_name == 'schedule'
+        run: |
+          age=$(( $(date +%s) - $(git log -1 --format=%ct) ))
+          if [ "$age" -lt 2592000 ]; then
+            echo "Dernier commit il y a $(( age / 86400 )) jours : rien à faire."
+            exit 0
+          fi
+          date -u +%FT%TZ > .github/derniere-activite
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/derniere-activite
+          git commit -m 'Entretien : garder les marees planifiees actives'
+          git push
